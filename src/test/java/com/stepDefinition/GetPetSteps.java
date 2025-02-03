@@ -21,8 +21,7 @@ public class GetPetSteps {
 	
 	@Given("Get pet using petid")
 	public void get_pet_using_petid() {
-		System.out.println("sysout test");
-		log.info("Inside get pets using petid");
+		log.debug("Inside get pets using petid");
 		pet.getPetById(2);
 	}
 

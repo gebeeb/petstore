@@ -22,12 +22,12 @@ public class Pets /*extends Authorization*/ {
 	}
 	
 	public void getPetById(int petId) {
-		System.out.println("\nInside getPetById");
-		System.out.println(baseUri + basePath + petId);
+		log.debug("Inside getPetById");
+		log.info(baseUri + basePath + petId);
 		
-	       Response response = RestAssured.given()
-	               .when()
-	               .get(baseUri + basePath + petId);
+	    Response response = RestAssured.given()
+           .when()
+           .get(baseUri + basePath + petId);
 		
 		log.debug("Response:");
 		response.then().statusCode(200).and().log().all().extract().response();
