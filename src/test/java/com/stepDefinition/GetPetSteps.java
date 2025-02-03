@@ -1,6 +1,8 @@
 package com.stepDefinition;
 
 import org.apache.logging.log4j.Logger;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import com.init.LogInitializer;
 
@@ -28,6 +30,10 @@ public class GetPetSteps {
 	@Given("Find Pets by status {string}")
 	public void find_pets_by_status(String status) {
 		//add tests to check that status is available, pending or sold only
+		assertThat("Pet status not valid!", status, anyOf(
+			    equalTo("available"),
+			    equalTo("pending"),
+			    equalTo("sold")));
 		pet.getPetsByStatus(status);
 	}
 	

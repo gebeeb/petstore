@@ -27,6 +27,7 @@
 		<commons-io.version>2.13.0</commons-io.version>	
 		<jackson-databind.version>2.18.2</jackson-databind.version>
 		<groovy.version>3.0.9</groovy.version>
+		<hamcrest.version>2.2</hamcrest.version>
 	</properties>
 
 	<build>
@@ -124,7 +125,14 @@
 		<dependency>
 	        <groupId>org.codehaus.groovy</groupId>
 	        <artifactId>groovy</artifactId>
-	        <version>${groovy.version}</version> <!-- Latest version -->
+	        <version>${groovy.version}</version>
     	</dependency>
+		<dependency>
+		    <groupId>org.hamcrest</groupId>
+		    <artifactId>hamcrest</artifactId>
+		    <version>${hamcrest.version}</version>
+		    <scope>test</scope>
+		</dependency>
+    	
 	</dependencies>
 </project>

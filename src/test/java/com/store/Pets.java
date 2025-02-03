@@ -32,7 +32,8 @@ public class Pets /*extends Authorization*/ {
            .get(baseUri + basePath + petId);
 		
 		log.debug("Response:");
-		response.then().statusCode(200).and().log().all().extract().response();
+		response.then().statusCode(200)
+					   .header("Content-Type", "application/json").and().log().all().extract().response();
 	}
 	
 	public void getPetsByStatus(String status) {
@@ -46,7 +47,8 @@ public class Pets /*extends Authorization*/ {
 	        .when()
 	        .get();	
 		log.debug("Response:");
-		response.then().statusCode(200).and().log().all().extract().response();
+		response.then().statusCode(200)
+					   .header("Content-Type", "application/json").and().log().all().extract().response();
 	}
 
 }
