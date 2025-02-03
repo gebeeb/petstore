@@ -16,6 +16,7 @@ public class Pets /*extends Authorization*/ {
 	protected Logger log;
 	String baseUri = "https://petstore.swagger.io/v2";
 	String basePath = "/pet/";
+	String endpoint;
 	
 	public Pets() {
 		log = LogInitializer.getLogger();
@@ -25,10 +26,25 @@ public class Pets /*extends Authorization*/ {
 		log.debug("Inside getPetById");
 		log.info(baseUri + basePath + petId);
 		
-	    Response response = RestAssured.given()
+	    Response response = given()
+	       .headers("Accept",ContentType.JSON)
            .when()
            .get(baseUri + basePath + petId);
 		
+		log.debug("Response:");
+		response.then().statusCode(200).and().log().all().extract().response();
+	}
+	
+	public void getPetsByStatus(String status) {
+		log.debug("Inside getPetsByStatus");
+		endpoint = basePath + "findByStatus";
+	    Response response = given()
+	    	.baseUri(baseUri)
+	    	.basePath(endpoint)
+	 	    .headers("Accept",ContentType.JSON)
+	 	    .queryParam("status", status)
+	        .when()
+	        .get();	
 		log.debug("Response:");
 		response.then().statusCode(200).and().log().all().extract().response();
 	}
