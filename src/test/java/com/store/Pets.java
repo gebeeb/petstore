@@ -1,7 +1,5 @@
 package com.store;
 
-import lib.Authorization;
-
 import static io.restassured.RestAssured.given;
 
 import org.apache.logging.log4j.Logger;
@@ -12,7 +10,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
-public class Pets /*extends Authorization*/ {
+public class Pets {
 	protected Logger log;
 	String baseUri = "https://petstore.swagger.io/v2";
 	String basePath = "/pet/";
