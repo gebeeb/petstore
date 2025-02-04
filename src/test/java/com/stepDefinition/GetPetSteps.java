@@ -25,55 +25,56 @@ public class GetPetSteps {
 		pet = new Pets();
 	}
 	
-	@Given("Pet with id {long} is existing")
-	public void pet_with_id_is_existing(long id) {
-		log.debug("Inside pet_with_id_is_existing");
-		pet.getPetById(id);
+	@Given("Pet with id {long} is existing, code {int}")
+	public void pet_with_id_is_existing(long id, int code) {
+		pet.getPetById(id, code);
 	}
 	
-	@Given("Find Pets by status {string}")
-	public void find_pets_by_status(String status) {
+	@Given("Find Pets by status {string}, code {int}")
+	public void find_pets_by_status(String status, int code) {
 		//add tests to check that status is available, pending or sold only
 		assertThat("Pet status not valid!", status, anyOf(
 			    equalTo(PetStatus.AVAILABLE.getDescription()),
 			    equalTo(PetStatus.PENDING.getDescription()),
 			    equalTo(PetStatus.SOLD.getDescription())));
-		pet.getPetsByStatus(status);
+		pet.getPetsByStatus(status, code);
 	}
 	
-	@When("User updates an existing pet with id {long}, category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}")
-	public void user_updates_an_existing_pet(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status) {
-		pet.updatePet(id, categoryId, categoryName, name, photoUrls, tags, status);
+	@When("User updates an existing pet with id {long}, category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}, code {int}")
+	public void user_updates_an_existing_pet(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status, int code) {
+		pet.petRequestBuilder(id, categoryId, categoryName, name, photoUrls, tags, status, code);
+		pet.updatePet();
 	}
 	
 	@Then("Pet record {long} is updated")
 	public void pet_record_with_is_updated(Long id) {
-		pet.verifyUpdatePet();
+		pet.verifyAddUpdatePet();
 	}
 	
-	@When("User updates an existing pet with id {long}, name {string}, status {string}")
-	public void user_updates_an_existing_pet_with_id_name_status(long id, String name, String status) {
-		pet.updateSingleForm(id, name, status);
+	@When("User updates an existing pet with id {long}, name {string}, status {string}, code {int}")
+	public void user_updates_an_existing_pet_with_id_name_status(long id, String name, String status, int code) {
+		pet.updateSingleForm(id, name, status, code);
 	}
 	
-	@Then("Pet record {int} is updated with name {string}, status {string}")
-	public void pet_record_is_updated_with_name_status(Integer int1, String string, String string2) {
+	@Then("Pet record {long} is updated with name {string} , status {string}")
+	public void pet_record_is_updated_with_name_status(long id, String name, String status) {
 		pet.verifySingleForm();
 	}
 
-	@When("User adds an new pet with id {long}, category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}")
-	public void user_adds_an_new_pet(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status) {
-		pet.addPet(id, categoryId, categoryName, name, photoUrls, tags, status);
+	@When("User adds an new pet with id {long}, category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}, code {int}")
+	public void user_adds_an_new_pet(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status, int code) {
+		pet.petRequestBuilder(id, categoryId, categoryName, name, photoUrls, tags, status, code);
+		pet.addPet();
 	}
 	
 	@Then("Pet record {int} is added")
 	public void pet_record_is_added(Integer int1) {
-		pet.verifyUpdatePet();
+		pet.verifyAddUpdatePet();
 	}
 	
-	@Given("User deletes a pet with id {long}")
-	public void user_deletes_a_pet_with_id(long id) {
-		pet.deletePet(id);
+	@Given("User deletes a pet with id {long}, code {int}")
+	public void user_deletes_a_pet_with_id(long id, int code) {
+		pet.deletePet(id, code);
 	}
 	@Then("Pet record {long} is deleted")
 	public void pet_record_is_deleted(Long id) {

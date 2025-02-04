@@ -1,12 +1,15 @@
 package com.pet;
 
-public class Category {
+public class Tag {
 
     private long id;
     private String name;
+    
+    public Tag() {
 
-    // Constructor
-    public Category(long id, String name) {
+    }
+
+    public Tag(long id, String name) {
         this.id = id;
         this.name = name;
     }

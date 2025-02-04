@@ -2,47 +2,69 @@
 Feature: TC01 Get Pets
 
 	@test1
-	Scenario: Get Pets
-		Given Pet with id 10 is existing
+	Scenario Outline: Get Pets
+		Given Pet with id <id> is existing, code <code>
+		
+    Examples:
+    		| id  |  code |
+    		| 12  |  200  |
+    		| 356 |  404  |
+		
 		
 	@test2
-	Scenario: Find Pets by status
-		Given Find Pets by status 'available'
+	Scenario Outline: Find Pets by status
+		Given Find Pets by status '<status>', code <code>
+
+    Examples:
+    		| status     |  code |
+    		| available  |  200  |
+    		| test       |  400  |	
+		
 	
 	@test3	
 	Scenario Outline: Update an existing pet
-		Given Pet with id <id> is existing
-		When User updates an existing pet with id <id>, category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>'
+		Given Pet with id <id> is existing, code <code>
+		When User updates an existing pet with id <id>, category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>', code <code>
 		Then Pet record <id> is updated
-		Then Pet with id <id> is existing
+		Then Pet with id <id> is existing, code <code>
 		
 		Examples:
-				  | id   | category.id | category.name    | name   | photoUrls              | tags     																																     | status    |
-    		  | 1    | 458         |   dog3           | name3  | ["photo3", "photo4"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available |
-		    	| 2    | 675         |   dog4           | name4  | ["photo4", "photo5"]   | [{"id": 8751, "name": "zsq34sdflqU1"}, {"id": 9854, "name": "G8QTEWAA123"}]  | pending   |
+				  | id   | category.id | category.name    | name   | photoUrls              | tags     																																     | status    |  code  |
+    		  | 1    | 458         |   dog3           | name3  | ["photo3", "photo4"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available |  200   |
+		    	| 3    | 675         |   dog4           | name4  | ["photo4", "photo5"]   | [{"id": 8751, "name": "zsq34sdflqU1"}, {"id": 9854, "name": "G8QTEWAA123"}]  | pending   |  200   |
 		    	
 		    	
 	@test4
-	 Scenario: Updates a pet in the store with from data
-		Given Pet with id 4 is existing    	
-		When User updates an existing pet with id 4, name 'dog2', status 'sold'
-		Then Pet record 4 is updated with name 'dog2', status 'sold'
-		
+	 Scenario Outline: Updates a pet in the store with from data
+		Given Pet with id <id> is existing, code <code>    	
+		When User updates an existing pet with id <id>, name '<name>', status '<status>', code <code>
+		Then Pet record <id> is updated with name '<name>' , status '<status>'
+    Examples:
+    		| id | name    | status     |  code |
+    		| 4  | dog44   |available   |  200  |
+    		| 5  | dog55   |  pending   |	 200  |
+
 		
 	@test5
 		Scenario Outline: Add a new pet to the store		
-		Given User adds an new pet with id <id>, category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>'
+		Given User adds an new pet with id <id>, category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>', code <code>
 		Then Pet record <id> is added
-		Then Pet with id <id> is existing
+  	Then Pet with id <id> is existing, code <code>
 		
 		Examples:
-				  | id   | category.id | category.name    | name   | photoUrls              | tags     																																     | status    |
-    		  | 502  | 458         |   dog3           | name3  | ["photo3", "photo4"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available |
+				  | id   | category.id | category.name    | name   | photoUrls              | tags     																																     | status    | code |
+    		  | 507  | 458         |   dog5           | name5  | ["photo5", "photo6"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available | 200  |
+    		  | 508  | 459         |   dog6           | name6  | ["photo7"]             | [{"id": 26232, "name": "aabbbcccc"}, {"id": 6435, "name": "SDHSDF"}, {"id": 6745, "name": "QWERTY"}]  | pending | 200  |
+ 
     		  
    @test6
-   	Scenario: Deletes a pet
-   	Given User deletes a pet with id 6
-   	Then  Pet record 6 is deleted
+   	Scenario Outline: Deletes a pet
+   	Given User deletes a pet with id <id>, code <code>
+   	Then  Pet record <id> is deleted
     		  
+    Examples:
+    		| id  |  code |
+    		| 12  |  200  |
+    		| 356 |  404  |
     		  
     		  
