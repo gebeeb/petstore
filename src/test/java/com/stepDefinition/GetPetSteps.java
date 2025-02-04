@@ -26,9 +26,9 @@ public class GetPetSteps {
 	}
 	
 	@Given("Pet with id {long} is existing")
-	public void pet_with_id_is_existing(long petId) {
+	public void pet_with_id_is_existing(long id) {
 		log.debug("Inside pet_with_id_is_existing");
-		pet.getPetById(petId);
+		pet.getPetById(id);
 	}
 	
 	@Given("Find Pets by status {string}")
@@ -41,17 +41,36 @@ public class GetPetSteps {
 		pet.getPetsByStatus(status);
 	}
 	
-	@When("User updates an existing pet")
-	public void user_updates_an_existing_pet(DataTable dataTable) {
-		List<Map<String, String>> petDetailsList = dataTable.asMaps(String.class, String.class);
-		pet.updatePet(petDetailsList);
-	}
-	@Then("Pet record with {int} is updated")
-	public void pet_record_with_is_updated(Integer int1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    //throw new io.cucumber.java.PendingException();
+	@When("User updates an existing pet with id {long}, category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}")
+	public void user_updates_an_existing_pet(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status) {
+		pet.updatePet(id, categoryId, categoryName, name, photoUrls, tags, status);
 	}
 	
+	@Then("Pet record {long} is updated")
+	public void pet_record_with_is_updated(Long id) {
+		pet.verifyUpdatePet();
+	}
+	
+	@When("User updates an existing pet with id {long}, name {string}, status {string}")
+	public void user_updates_an_existing_pet_with_id_name_status(long id, String name, String status) {
+		pet.updateSingleForm(id, name, status);
+	}
+	
+	@Then("Pet record {int} is updated with name {string}, status {string}")
+	public void pet_record_is_updated_with_name_status(Integer int1, String string, String string2) {
+		pet.verifySingleForm();
+	}
+
+	@When("User adds an new pet with id {long}, category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}")
+	public void user_adds_an_new_pet(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status) {
+		pet.addPet(id, categoryId, categoryName, name, photoUrls, tags, status);
+	}
+	
+	@Then("Pet record {int} is added")
+	public void pet_record_is_added(Integer int1) {
+		pet.verifyUpdatePet();
+	}
+
 	
 
 }

@@ -41,7 +41,7 @@ Ensure the following are installed on your machine:
 ## Execution Steps	
 1. Running Tests with Cucumber TAgs
 
-	mvn test -Dcucumber.options="--tags @test"
+	clean install test -Dcucumber.filter.tags="@test"
 
 ## Folder Structure
 	├── src
