@@ -70,6 +70,15 @@ public class GetPetSteps {
 	public void pet_record_is_added(Integer int1) {
 		pet.verifyUpdatePet();
 	}
+	
+	@Given("User deletes a pet with id {long}")
+	public void user_deletes_a_pet_with_id(long id) {
+		pet.deletePet(id);
+	}
+	@Then("Pet record {long} is deleted")
+	public void pet_record_is_deleted(Long id) {
+		  pet.verifyPetNotFound();
+	}
 
 	
 

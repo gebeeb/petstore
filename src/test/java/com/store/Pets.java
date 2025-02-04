@@ -43,8 +43,6 @@ public class Pets {
 	
 	public void getPetById(long id) {
 		log.debug("Inside getPetById");
-		//log.info(baseUri + basePath + petId);
-		
 	    response = given()
 	       .baseUri(baseUri)
 	       .basePath(basePath)
@@ -214,6 +212,41 @@ public class Pets {
 					   .header("Content-Type", "application/json")
 					   .and().log().all().extract().response();
 		
+	}
+
+	public void deletePet(long id) {
+		log.debug("Inside deletePetById");
+	    response = given()
+	       .baseUri(baseUri)
+	       .basePath(basePath)
+	       .pathParam("petId", id)
+	       //.headers("Accept",ContentType.JSON)
+	       .headers("api_key", "")
+           .when()
+           .delete("/{petId}");
+		
+		log.debug("Response:");
+		response.then().statusCode(200)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();
+		assertThat("Status code should be 200", response.jsonPath().getInt("code"), equalTo(200));
+		log.debug("Assertions passed!");
+	}
+
+	public void verifyPetNotFound() {
+	    response = given()
+	       .baseUri(baseUri)
+	       .basePath(basePath)
+	       .pathParam("id", id)
+	       .headers("Accept",ContentType.JSON)
+           .when()
+           .get("/{id}");
+		
+		log.debug("Response:");
+		response.then().statusCode(404)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();
+		assertThat("Pet should not be found", response.jsonPath().getString("message"), equalTo("Pet not found"));
 	}
 
 

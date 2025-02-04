@@ -39,7 +39,10 @@ Feature: TC01 Get Pets
 				  | id   | category.id | category.name    | name   | photoUrls              | tags     																																     | status    |
     		  | 502  | 458         |   dog3           | name3  | ["photo3", "photo4"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available |
     		  
-    		  
+   @test6
+   	Scenario: Deletes a pet
+   	Given User deletes a pet with id 6
+   	Then  Pet record 6 is deleted
     		  
     		  
     		  
