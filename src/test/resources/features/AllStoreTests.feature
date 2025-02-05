@@ -1,11 +1,11 @@
 @test @store
 Feature: TC02 All Store Tests
 
-  Scenario: Return pet inventories
+  Scenario: TC02.01 Return pet inventories
     When User sends an inventory request
     Then A map of status codes to quantities is returned
 
-  Scenario Outline: Place an order for pet
+  Scenario Outline: TC02.02 Place an order for pet
     #    Given Pet with id <petId> is existing, code <code>
     When User places a store order with petId <petId> quantity <quantity> shipdate '<shipDate>' status '<status>' complete '<complete>' code <code>
     Then Order is created and retrieved
@@ -15,8 +15,8 @@ Feature: TC02 All Store Tests
       |   111 |        3 | 2025-02-05T05:04:10.270Z | placed   | true     |  200 |
       |   222 |        1 | 2025-01-28T08:37:12.000Z | approved | false    |  200 |
 
-  @thistest
-  Scenario Outline: Place an order with id for pet
+
+  Scenario Outline: TC02.03 Place an order with id for pet
     When User places a store order with petId <petId> quantity <quantity> shipdate '<shipDate>' status '<status>' complete '<complete>' code <code>
     Then Order is created and retrieved
 
@@ -26,7 +26,7 @@ Feature: TC02 All Store Tests
       |  502   |   222 |        1 | 2025-01-28T08:37:12.000Z | approved | false    |  200 |
       
 
-  Scenario Outline: Find purchase by ID
+  Scenario Outline: TC02.04 Find purchase by ID
     When User retrieves an order with id <id> , code <code>
 
     Examples: 
@@ -38,7 +38,7 @@ Feature: TC02 All Store Tests
       | 888 |  404 |
 
 
-  Scenario Outline: Deletes purchase by ID
+  Scenario Outline: TC02.05 Deletes purchase by ID
     Given User deletes an order with id <id>, code <code>
     Then Order record <id> is deleted
 

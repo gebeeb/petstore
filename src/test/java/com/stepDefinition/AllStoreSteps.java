@@ -1,8 +1,5 @@
 package com.stepDefinition;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
 import com.pet.Petstore;
 import com.store.Inventory;
 
