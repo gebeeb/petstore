@@ -63,6 +63,12 @@ public class AllPetSteps {
 		pet.addPet();
 	}
 	
+	@When("User adds an new pet with id {long} category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}, code {int}")
+	public void user_adds_an_new_pet_with_id(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status, int code) {
+		pet.petRequestBuilder(id, categoryId, categoryName, name, photoUrls, tags, status, code);
+		pet.addPet();
+	}
+	
 	@Then("Pet record is added")
 	public void pet_record_is_added() {
 		pet.verifyAddPet();

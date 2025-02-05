@@ -1,8 +1,6 @@
 @test @pets
 Feature: TC01 All Pet Tests
 
-
-	@test1
 		Scenario Outline: Add a new pet to the store		
 		Given User adds an new pet with category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>', code <code>
 		Then Pet record is added
@@ -12,9 +10,19 @@ Feature: TC01 All Pet Tests
 				  | category.id | category.name    | name   | photoUrls              | tags     																																     | status    | code |
     		  | 458         |   dog5           | name5  | ["photo5", "photo6"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available | 200  |
     		  | 459         |   dog6           | name6  | ["photo7"]             | [{"id": 26232, "name": "aabbbcccc"}, {"id": 6435, "name": "SDHSDF"}, {"id": 6745, "name": "QWERTY"}]  | pending | 200  |
+
+
+		Scenario Outline: Add a new pet to the store with id		
+		Given User adds an new pet with id <id> category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>', code <code>
+		Then Pet record is added
+		Then Pet record is existing
+	
+		Examples:
+				  | id  | category.id | category.name    | name   | photoUrls              | tags     																																     | status    | code |
+    		  | 501 | 458         |   dog5           | name5  | ["photo5", "photo6"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available | 200  |
+    		  | 502 | 945         |   dog6           | name6  | ["photo7"]             | [{"id": 26232, "name": "aabbbcccc"}, {"id": 6435, "name": "SDHSDF"}, {"id": 6745, "name": "QWERTY"}]  | pending | 200  |  
+ 
   
-  
-	@test2
 	Scenario Outline: Find pet by ID
 		Given Pet with id <id> is existing, code <code>
 		
@@ -23,7 +31,7 @@ Feature: TC01 All Pet Tests
     		| 501 |  200  |
     		| 502 |  200  |    		
     		| 356 |  404  |
-		
+
 		
 	@test3
 	Scenario Outline: Find Pets by status
@@ -35,7 +43,6 @@ Feature: TC01 All Pet Tests
     		| pending    |  200  |	
 		
 	
-	@test4	
 	Scenario Outline: Update an existing pet
 		Given Pet with id <id> is existing, code <code>
 		When User updates an existing pet with id <id>, category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>', code <code>
@@ -58,6 +65,7 @@ Feature: TC01 All Pet Tests
     		| id   | name    |  status     |  code |
     		| 501  | dog44   | available   |  200  |
     		| 502  | dog55   |  pending    |	200  |
+
 
 	@test6
 	Scenario Outline: Uploads an image

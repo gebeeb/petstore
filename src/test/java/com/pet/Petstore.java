@@ -113,10 +113,10 @@ public class Petstore {
 	
 	public void verifyAddPet() {
 		log.info("Verifying add pet");
-		assertThat("Pet id should be updated", response.jsonPath().getLong("id"), equalTo(this.id));
-		assertThat("Pet category id should be updated", response.jsonPath().getLong("category.id"), equalTo(pet.getCategory().getId()));
-		assertThat("Pet category name should be updated",response.jsonPath().getString("category.name"), equalTo(pet.getCategory().getName()));
-		assertThat("Pet name should be updated", response.jsonPath().getString("name"), equalTo(pet.getName()));
+		assertThat("Pet id should match", response.jsonPath().getLong("id"), equalTo(this.id));
+		assertThat("Pet category id should match", response.jsonPath().getLong("category.id"), equalTo(pet.getCategory().getId()));
+		assertThat("Pet category name should match",response.jsonPath().getString("category.name"), equalTo(pet.getCategory().getName()));
+		assertThat("Pet name should match", response.jsonPath().getString("name"), equalTo(pet.getName()));
         List<String> responsePhotoUrls = response.jsonPath().getList("photoUrls");
         assertThat("Photo URLs should match", responsePhotoUrls, equalTo(pet.getPhotoUrls()));
 
@@ -127,7 +127,7 @@ public class Petstore {
         	assertThat("Tag id should match", ((Number) responseTags.get(i).get("id")).longValue(), equalTo(petTags.get(i).getId()));
             assertThat("Tag name should match", responseTags.get(i).get("name"), equalTo(petTags.get(i).getName()));
         }
-		assertThat("Pet status should be updated",response.jsonPath().getString("status"), equalTo(this.status));
+		assertThat("Pet status should match",response.jsonPath().getString("status"), equalTo(this.status));
 		log.debug("Assertions passed!");
 	}
 
