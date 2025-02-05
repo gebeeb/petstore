@@ -16,8 +16,6 @@ import java.util.Map;
 import java.io.File;
 import java.net.URL;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.util.PetstoreUtils;
@@ -29,7 +27,6 @@ public class Petstore {
 	Response response;
 	Pet pet;
 	
-
 	long id;
 	long categoryId;
 	String categoryName;
@@ -60,6 +57,44 @@ public class Petstore {
 			assertThat(response.jsonPath().getLong("id"), equalTo(id));
 	}
 	
+	public void addPet() {
+		log.info("Adding a pet");
+	    response = given()
+	    		.log().all()
+		    	.baseUri(baseUri)
+		    	.basePath(basePath)
+		 	    .headers("Accept",ContentType.JSON)
+		 	    .header("Content-Type", ContentType.JSON) 
+		 	    .body(PetstoreUtils.processObject(pet))
+		 	    .when()
+		        .post();	
+	    
+		log.debug("Verify Response:");
+		response.then().statusCode(this.code)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();
+		this.id = response.jsonPath().getLong("id");
+	}
+	
+	public void getPetByGeneratedId() {
+		log.debug("Getting a pet by Generated Id");
+	    response = given()
+	       .log().all()	
+	       .baseUri(baseUri)
+	       .basePath(basePath)
+	       .pathParam("id", this.id)
+	       .headers("Accept",ContentType.JSON)
+           .when()
+           .get("/{id}");
+		
+		log.debug("Response:");
+		response.then().statusCode(code)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();
+		if (code == 200)
+			assertThat(response.jsonPath().getLong("id"), equalTo(this.id));
+	}
+	
 	public void getPetsByStatus(String status, int code) {
 		log.debug("Getting a pet by status");
 	    response = given()
@@ -75,9 +110,29 @@ public class Petstore {
 					   .header("Content-Type", "application/json")
 					   .and().log().all().extract().response();
 	}
+	
+	public void verifyAddPet() {
+		log.info("Verifying add pet");
+		assertThat("Pet id should be updated", response.jsonPath().getLong("id"), equalTo(this.id));
+		assertThat("Pet category id should be updated", response.jsonPath().getLong("category.id"), equalTo(pet.getCategory().getId()));
+		assertThat("Pet category name should be updated",response.jsonPath().getString("category.name"), equalTo(pet.getCategory().getName()));
+		assertThat("Pet name should be updated", response.jsonPath().getString("name"), equalTo(pet.getName()));
+        List<String> responsePhotoUrls = response.jsonPath().getList("photoUrls");
+        assertThat("Photo URLs should match", responsePhotoUrls, equalTo(pet.getPhotoUrls()));
 
-	public void verifyAddUpdatePet() {
-		log.info("Verifying add/update success");
+        List<Tag> petTags = pet.getTags();
+        List<Map<String, Object>> responseTags = response.jsonPath().getList("tags");
+
+        for (int i = 0; i < petTags.size(); i++) {
+        	assertThat("Tag id should match", ((Number) responseTags.get(i).get("id")).longValue(), equalTo(petTags.get(i).getId()));
+            assertThat("Tag name should match", responseTags.get(i).get("name"), equalTo(petTags.get(i).getName()));
+        }
+		assertThat("Pet status should be updated",response.jsonPath().getString("status"), equalTo(this.status));
+		log.debug("Assertions passed!");
+	}
+
+	public void verifyUpdatePet() {
+		log.info("Verifying update success");
 		assertThat("Pet id should be updated", response.jsonPath().getLong("id"), equalTo(pet.getId()));
 		assertThat("Pet category id should be updated", response.jsonPath().getLong("category.id"), equalTo(pet.getCategory().getId()));
 		assertThat("Pet category name should be updated",response.jsonPath().getString("category.name"), equalTo(pet.getCategory().getName()));
@@ -172,6 +227,7 @@ public class Petstore {
 		assertThat("Pet should not be found", response.jsonPath().getString("message"), equalTo("Pet not found"));
 	}
 
+	@SuppressWarnings("unchecked")
 	public void petRequestBuilder(long id, long categoryId, String categoryName, String name, String photoUrls,
 			String tags, String status, int code) {
 		this.id = id;
@@ -199,26 +255,6 @@ public class Petstore {
         }
 
         pet = new Pet(id, category, name, photoUrlsList, tagList, status);
-	}
-	
-	public void addPet() {
-		log.info("Adding a pet");
-	    response = given()
-	    		.log().all()
-		    	.baseUri(baseUri)
-		    	.basePath(basePath)
-		 	    .headers("Accept",ContentType.JSON)
-		 	    .header("Content-Type", ContentType.JSON) 
-		 	    .body(PetstoreUtils.processObject(pet))
-		 	    .when()
-	            .log()
-	            .body()
-		        .post();	
-	    
-		log.debug("Verify Response:");
-		response.then().statusCode(this.code)
-					   .header("Content-Type", "application/json")
-					   .and().log().all().extract().response();
 	}
 	
 	public void updatePet() {

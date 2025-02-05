@@ -1,26 +1,19 @@
 package com.stepDefinition;
 
-import org.apache.logging.log4j.Logger;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import com.enums.PetStatus;
-import com.init.LogInitializer;
 import com.pet.Petstore;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.cucumber.datatable.DataTable;
-import java.util.List;
-import java.util.Map;
 
 public class AllPetSteps {
-	private Logger log;
 	private Petstore pet;
 	
 	public AllPetSteps() {
-		log = LogInitializer.getLogger();
 		pet = new Petstore();
 	}
 	
@@ -29,9 +22,13 @@ public class AllPetSteps {
 		pet.getPetById(id, code);
 	}
 	
+	@Then("Pet record is existing")
+	public void pet_record_is_existing() {
+		pet.getPetByGeneratedId();
+	}
+	
 	@Given("Find Pets by status {string}, code {int}")
 	public void find_pets_by_status(String status, int code) {
-		//add tests to check that status is available, pending or sold only
 		assertThat("Pet status not valid!", status, anyOf(
 			    equalTo(PetStatus.AVAILABLE.getDescription()),
 			    equalTo(PetStatus.PENDING.getDescription()),
@@ -47,7 +44,7 @@ public class AllPetSteps {
 	
 	@Then("Pet record {long} is updated")
 	public void pet_record_with_is_updated(Long id) {
-		pet.verifyAddUpdatePet();
+		pet.verifyUpdatePet();
 	}
 	
 	@When("User updates an existing pet with id {long}, name {string}, status {string}, code {int}")
@@ -60,15 +57,15 @@ public class AllPetSteps {
 		pet.verifySingleForm();
 	}
 
-	@When("User adds an new pet with id {long}, category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}, code {int}")
-	public void user_adds_an_new_pet(long id, long categoryId, String categoryName, String name, String photoUrls, String tags, String status, int code) {
-		pet.petRequestBuilder(id, categoryId, categoryName, name, photoUrls, tags, status, code);
+	@When("User adds an new pet with category id {long}, category name {string}, name {string}, photoUrls {string}, tags {string}, status {string}, code {int}")
+	public void user_adds_an_new_pet(long categoryId, String categoryName, String name, String photoUrls, String tags, String status, int code) {
+		pet.petRequestBuilder(0, categoryId, categoryName, name, photoUrls, tags, status, code);
 		pet.addPet();
 	}
 	
-	@Then("Pet record {int} is added")
-	public void pet_record_is_added(Integer int1) {
-		pet.verifyAddUpdatePet();
+	@Then("Pet record is added")
+	public void pet_record_is_added() {
+		pet.verifyAddPet();
 	}
 	
 	@Given("User deletes a pet with id {long}, code {int}")

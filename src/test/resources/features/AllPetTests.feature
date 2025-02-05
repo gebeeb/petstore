@@ -4,14 +4,14 @@ Feature: TC01 All Pet Tests
 
 	@test1
 		Scenario Outline: Add a new pet to the store		
-		Given User adds an new pet with id <id>, category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>', code <code>
-		Then Pet record <id> is added
-  	Then Pet with id <id> is existing, code <code>
+		Given User adds an new pet with category id <category.id>, category name '<category.name>', name '<name>', photoUrls '<photoUrls>', tags '<tags>', status '<status>', code <code>
+		Then Pet record is added
+		Then Pet record is existing
 	
 		Examples:
-				  | id   | category.id | category.name    | name   | photoUrls              | tags     																																     | status    | code |
-    		  | 501  | 458         |   dog5           | name5  | ["photo5", "photo6"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available | 200  |
-    		  | 502  | 459         |   dog6           | name6  | ["photo7"]             | [{"id": 26232, "name": "aabbbcccc"}, {"id": 6435, "name": "SDHSDF"}, {"id": 6745, "name": "QWERTY"}]  | pending | 200  |
+				  | category.id | category.name    | name   | photoUrls              | tags     																																     | status    | code |
+    		  | 458         |   dog5           | name5  | ["photo5", "photo6"]   | [{"id": 3605, "name": "zsq3425jlqUQ"}, {"id": 5633, "name": "G8QTEWAAlw1"}]  | available | 200  |
+    		  | 459         |   dog6           | name6  | ["photo7"]             | [{"id": 26232, "name": "aabbbcccc"}, {"id": 6435, "name": "SDHSDF"}, {"id": 6745, "name": "QWERTY"}]  | pending | 200  |
   
   
 	@test2
@@ -80,5 +80,6 @@ Feature: TC01 All Pet Tests
     		| 501 |  200  |
     		| 502 |  200  |    		
     		| 356 |  404  |
-    		  
+ 
+   	 		  
     		  
