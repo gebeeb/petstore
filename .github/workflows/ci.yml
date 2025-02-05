@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:     
   pull_request:
     branches:
       - main
@@ -12,47 +13,47 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest  # Specifies the environment to run the job
+    runs-on: ubuntu-latest  
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2  # Checkout the repository code
+      uses: actions/checkout@v2  
 
     - name: Set up JDK 8
       uses: actions/setup-java@v2
       with:
-        java-version: '8'  # Specify Java version, this assumes JDK 8
+        java-version: '8'  
         distribution: 'adoptopenjdk'
 
     - name: Cache Maven dependencies
       uses: actions/cache@v2
       with:
-        path: ~/.m2/repository  # Caches the local Maven repository to speed up future builds
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  # Cache key is based on the hash of the pom.xml files
+        path: ~/.m2/repository  
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}  
         restore-keys: |
           ${{ runner.os }}-maven-
 
     - name: Install dependencies
-      run: mvn install -DskipTests=true  # Install dependencies without running tests
+      run: mvn install -DskipTests=true  
 
     - name: Run Tests with Maven
-      run: mvn test  # Run tests using Maven
-      continue-on-error: false  # Fail the build if the tests fail
+      run: mvn test  
+      continue-on-error: false  
 
     - name: Upload Cucumber HTML Report as an artifact
-      if: success()  # This step will only run if the tests succeed
+      if: success()  
       uses: actions/upload-artifact@v2
       with:
         name: cucumber-reports
-        path: target/cucumber/report.html  # Upload the HTML report as an artifact
+        path: target/cucumber/report.html  
 
     - name: Upload JUnit Report as an artifact
       if: success()
       uses: actions/upload-artifact@v2
       with:
         name: junit-reports
-        path: target/surefire-reports/  # Upload the JUnit report as an artifact
+        path: target/surefire-reports/  
 
     - name: Clean up the workspace
       if: always()
-      run: mvn clean  # Clean up after the build
+      run: mvn clean  
