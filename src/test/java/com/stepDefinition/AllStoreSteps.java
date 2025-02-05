@@ -1,5 +1,8 @@
 package com.stepDefinition;
 
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+
 import com.pet.Petstore;
 import com.store.Inventory;
 
@@ -7,6 +10,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+@Execution(ExecutionMode.CONCURRENT)
 public class AllStoreSteps {
 	private Petstore pet;
 	private Inventory inventory;

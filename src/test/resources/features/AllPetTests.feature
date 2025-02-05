@@ -1,4 +1,4 @@
-@test @pets
+@test @pet
 Feature: TC01 All Pet Tests
 
 		Scenario Outline: TC01.01 Add a new pet to the store		

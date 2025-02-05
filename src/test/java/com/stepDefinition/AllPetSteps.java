@@ -3,6 +3,9 @@ package com.stepDefinition;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
+
 import com.enums.PetStatus;
 import com.pet.Petstore;
 
@@ -10,6 +13,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+@Execution(ExecutionMode.CONCURRENT)
 public class AllPetSteps {
 	private Petstore pet;
 	
