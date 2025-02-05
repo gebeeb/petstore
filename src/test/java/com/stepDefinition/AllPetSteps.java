@@ -80,7 +80,7 @@ public class AllPetSteps {
 	}
 	@Then("Pet record {long} is deleted")
 	public void pet_record_is_deleted(Long id) {
-		  pet.verifyPetNotFound();
+		pet.verifyPetNotFound();
 	}
 
 	@When("User uploads an image to id {long}, additionalMetadata {string}, file {string}, code {int}")

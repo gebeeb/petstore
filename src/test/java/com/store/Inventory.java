@@ -126,6 +126,25 @@ public class Inventory {
 			log.info(response.getBody().asString());
 		}		
 	}
+
+	public void verifyOrderNotFound(long id) {
+		log.info("Verifying store not found");
+	    response = given()
+	       .log().all()
+	       .baseUri(baseUri)
+	       .basePath(basePath)
+	       .pathParam("id", id)
+	       .headers("Accept",ContentType.JSON)
+           .when()
+           .get("/{id}");
+		
+		log.debug("Response:");
+		response.then().statusCode(404)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();
+		assertThat("Store should not be found", response.jsonPath().getString("message"), equalTo("Order Not Found"));
+
+	}
 	
 	
 

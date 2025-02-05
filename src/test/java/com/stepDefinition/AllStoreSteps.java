@@ -54,9 +54,9 @@ public class AllStoreSteps {
 	public void user_deletes_an_order_with_id_code(long id, int code) {
 		inventory.deleteOrder(id,code);
 	}
-	@Then("Order record {int} is deleted")
-	public void order_record_is_deleted(Integer int1) {
-
+	@Then("Order record {long} is deleted")
+	public void order_record_is_deleted(long id) {
+		inventory.verifyOrderNotFound(id);
 	}
 
 
