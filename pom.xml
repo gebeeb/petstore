@@ -37,6 +37,9 @@
 				<directory>src/test/java</directory>
 				<filtering>false</filtering>
 			</testResource>
+			<testResource>
+            	<directory>src/test/resources</directory>
+        	</testResource>
 		</testResources>
 		<plugins>
 			<plugin>

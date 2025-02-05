@@ -16,6 +16,8 @@ import static org.hamcrest.Matchers.*;
 
 import java.util.List;
 import java.util.Map;
+import java.io.File;
+import java.net.URL;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -252,6 +254,41 @@ public class Pets {
 	    
 		log.debug("Verify Response:");
 		response.then().statusCode(this.code)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();		
+	}
+
+	public void uploadImage(long id, String additionalMetadata, String file, int code) {
+		log.info("Uploading an image");
+		URL fileUrl = Pets.class.getClassLoader().getResource(file);
+//		assertThat("File not found in resources folder!", fileUrl, not(null));
+        if (fileUrl != null) {
+            File fileToUpload = new File(fileUrl.getFile());
+
+            response = given()
+            	.log().all()	
+            	.baseUri(baseUri)
+            	.basePath(basePath)
+            	.pathParam("id", id)
+                .multiPart("file", fileToUpload)  
+                .contentType(ContentType.MULTIPART)  
+                .when()
+                .post("/{id}/uploadImage");  
+
+//            // Print the response
+//            System.out.println("Response: " + response.getBody().asString());
+//
+//            // Check if the upload was successful
+//            if (response.statusCode() == 200) {
+//                System.out.println("File uploaded successfully!");
+//            } else {
+//                System.out.println("File upload failed with status code: " + response.statusCode());
+//            }
+        } else {
+            log.info("File not found in resources folder!");
+        }
+		log.debug("Verify Response:");
+		response.then().statusCode(code)
 					   .header("Content-Type", "application/json")
 					   .and().log().all().extract().response();		
 	}

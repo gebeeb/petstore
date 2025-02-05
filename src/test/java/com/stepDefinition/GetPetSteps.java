@@ -81,6 +81,9 @@ public class GetPetSteps {
 		  pet.verifyPetNotFound();
 	}
 
-	
+	@When("User uploads an image to id {long}, additionalMetadata {string}, file {string}, code {int}")
+	public void user_uploads_an_image_to_id_additional_metadata_file_code(long id, String additionalMetadata, String file, int code) {
+		pet.uploadImage(id, additionalMetadata, file, code);
+	}
 
 }
