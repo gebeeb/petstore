@@ -1,13 +1,10 @@
-package com.store;
+package com.pet;
 
 import static io.restassured.RestAssured.given;
 
 import org.apache.logging.log4j.Logger;
 
 import com.init.LogInitializer;
-import com.pet.Category;
-import com.pet.Tag;
-import com.pet.Pet;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
@@ -23,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Pets {
+import com.util.PetstoreUtils;
+
+public class Petstore {
 	protected Logger log;
 	String baseUri = "https://petstore.swagger.io/v2";
 	String basePath = "/pet";
@@ -38,7 +37,7 @@ public class Pets {
 	String status;
 	int code;
 	
-	public Pets() {
+	public Petstore() {
 		log = LogInitializer.getLogger();
 	}
 	
@@ -210,7 +209,7 @@ public class Pets {
 		    	.basePath(basePath)
 		 	    .headers("Accept",ContentType.JSON)
 		 	    .header("Content-Type", ContentType.JSON) 
-		 	    .body(processObject(pet))
+		 	    .body(PetstoreUtils.processObject(pet))
 		 	    .when()
 	            .log()
 	            .body()
@@ -222,22 +221,6 @@ public class Pets {
 					   .and().log().all().extract().response();
 	}
 	
-	public String processObject(Object request) {
-		
-		ObjectMapper mapper = new ObjectMapper();   
-        mapper.setSerializationInclusion(Include.ALWAYS);  
-        
-        String payload = "";
-        
-		try {
-			payload = mapper.writeValueAsString(request);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-		}
-		
-		return payload;
-	}
-
 	public void updatePet() {
 		log.info("Updating a pet");
 	    response = given()
@@ -246,7 +229,7 @@ public class Pets {
 		    	.basePath(basePath)
 		 	    .headers("Accept",ContentType.JSON)
 		 	    .header("Content-Type", ContentType.JSON) 
-		 	    .body(processObject(pet))
+		 	    .body(PetstoreUtils.processObject(pet))
 		        .when()
 	            .log()
 	            .body()
@@ -260,8 +243,7 @@ public class Pets {
 
 	public void uploadImage(long id, String additionalMetadata, String file, int code) {
 		log.info("Uploading an image");
-		URL fileUrl = Pets.class.getClassLoader().getResource(file);
-//		assertThat("File not found in resources folder!", fileUrl, not(null));
+		URL fileUrl = Petstore.class.getClassLoader().getResource(file);
         if (fileUrl != null) {
             File fileToUpload = new File(fileUrl.getFile());
 
@@ -274,16 +256,6 @@ public class Pets {
                 .contentType(ContentType.MULTIPART)  
                 .when()
                 .post("/{id}/uploadImage");  
-
-//            // Print the response
-//            System.out.println("Response: " + response.getBody().asString());
-//
-//            // Check if the upload was successful
-//            if (response.statusCode() == 200) {
-//                System.out.println("File uploaded successfully!");
-//            } else {
-//                System.out.println("File upload failed with status code: " + response.statusCode());
-//            }
         } else {
             log.info("File not found in resources folder!");
         }

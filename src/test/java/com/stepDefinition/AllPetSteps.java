@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 
 import com.enums.PetStatus;
 import com.init.LogInitializer;
+import com.pet.Petstore;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,15 +15,13 @@ import io.cucumber.datatable.DataTable;
 import java.util.List;
 import java.util.Map;
 
-import com.store.Pets;
-
-public class GetPetSteps {
+public class AllPetSteps {
 	private Logger log;
-	private Pets pet;
+	private Petstore pet;
 	
-	public GetPetSteps() {
+	public AllPetSteps() {
 		log = LogInitializer.getLogger();
-		pet = new Pets();
+		pet = new Petstore();
 	}
 	
 	@Given("Pet with id {long} is existing, code {int}")

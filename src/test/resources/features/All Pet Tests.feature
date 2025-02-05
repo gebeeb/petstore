@@ -1,5 +1,5 @@
 @test @pets
-Feature: TC01 Get Pets
+Feature: TC01 All Pet Tests
 
 
 	@test1
@@ -15,7 +15,7 @@ Feature: TC01 Get Pets
   
   
 	@test2
-	Scenario Outline: Get Pets
+	Scenario Outline: Find pet by ID
 		Given Pet with id <id> is existing, code <code>
 		
     Examples:
