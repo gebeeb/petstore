@@ -18,7 +18,7 @@ This project is an automation framework built using **RestAssured**, **JUnit**, 
 
 Make sure you have the following installed on your machine:
 
-1. **Java JDK** 11 or later
+1. **Java JDK** 8 or later
 2. **Maven** 3.6+ (Maven is used to build the project and manage dependencies)
 3. **Git** (for cloning the repository)
 

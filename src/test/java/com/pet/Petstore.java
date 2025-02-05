@@ -248,7 +248,6 @@ public class Petstore {
             File fileToUpload = new File(fileUrl.getFile());
 
             response = given()
-            	.log().all()	
             	.baseUri(baseUri)
             	.basePath(basePath)
             	.pathParam("id", id)

@@ -13,22 +13,21 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.version>4.13.2</junit.version>
-		<cucumber.version>7.18.1</cucumber.version>
-		<surefire.version>3.0.0-M7</surefire.version>
-		<maven.compiler.plugin>3.8.1</maven.compiler.plugin>
+		<junit-jupiter-api.version>5.11.4</junit-jupiter-api.version>
+		<cucumber.version>7.21.0</cucumber.version>
+		<surefire.version>3.5.2</surefire.version>
+		<maven.compiler.plugin>3.13.0</maven.compiler.plugin>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<rest-assured.version>5.1.1</rest-assured.version>
-		<json.version>20230618</json.version>
+		<rest-assured.version>5.5.0</rest-assured.version>
+		<json.version>20250107</json.version>
 		<json-path.version>2.8.0</json-path.version>
-		<log4j-core.version>2.19.0</log4j-core.version>
-		<log4j-api.version>2.19.0</log4j-api.version>	
-		<commons-io.version>2.13.0</commons-io.version>	
+		<log4j-core.version>2.24.3</log4j-core.version>
+		<log4j-api.version>2.24.3</log4j-api.version>	
+		<commons-io.version>2.18.0</commons-io.version>	
 		<jackson-databind.version>2.18.2</jackson-databind.version>
 		<groovy.version>3.0.9</groovy.version>
 		<hamcrest.version>2.2</hamcrest.version>
-		<gson.version>2.8.9</gson.version>
 	</properties>
 
 	<build>
@@ -67,9 +66,9 @@
 	<dependencies>
 		<!-- JUnit -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit-jupiter-api.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<!-- cucumber-core -->
@@ -137,11 +136,5 @@
 		    <version>${hamcrest.version}</version>
 		    <scope>test</scope>
 		</dependency>
-		<dependency>
-		    <groupId>com.google.code.gson</groupId>
-		    <artifactId>gson</artifactId>
-		    <version>${gson.version}</version> <!-- You can replace this with the latest version -->
-		</dependency>
-    	
 	</dependencies>
 </project>
