@@ -13,7 +13,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit-jupiter-api.version>5.11.4</junit-jupiter-api.version>
+		<junit.version>4.13.2</junit.version>
 		<cucumber.version>7.21.0</cucumber.version>
 		<surefire.version>3.5.2</surefire.version>
 		<maven.compiler.plugin>3.13.0</maven.compiler.plugin>
@@ -66,10 +66,9 @@
 	<dependencies>
 		<!-- JUnit -->
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit-jupiter-api.version}</version>
-			<scope>test</scope>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
 		</dependency>
 		<!-- cucumber-core -->
 		<dependency>

@@ -84,7 +84,7 @@ public class Inventory {
 		
 	}
 
-	public void verifyAddOder() {
+	public void verifyAddOrder() {
 		log.info("Verifying add order");
 		assertThat("Pet id should match", response.jsonPath().getLong("petId"), equalTo(store.getPetId()));
 		assertThat("Quantity should match", response.jsonPath().getInt("quantity"), equalTo(store.getQuantity()));
