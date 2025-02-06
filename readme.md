@@ -98,7 +98,7 @@ Examples:
   
 In the example above:
 
-The Scenario Outline defines the test steps with placeholders <id>, <name>, <status>, and <code>.
+The Scenario Outline defines the test steps with placeholders &lt;id&gt;, &lt;name&gt;, &lt;status&gt;, and &lt;code&gt;.
 The Examples table provides the different sets of values for these placeholders, which will be substituted during the test execution.
 Each row in the Examples table is executed as a separate test with different test data.
 
@@ -110,7 +110,8 @@ Example of a step definition in Java:
 @Given("Pet with {int} and {string} is created with status {string} and code {int}")
 public void createPet(int id, String name, String status, int code) {
     // Use the id, name, status, and code values to create a pet and verify the response
-}```
+}
+```
 Each test will run with the respective data from the Examples table.  
 
 ---
