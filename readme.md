@@ -77,6 +77,42 @@ mvn test -Dcucumber.filter.tags="@test"
 
 Replace `@test` with the tag of the relevant test you want to run
 
+### Test Data with Cucumber Examples
+
+Test data is provided in **Cucumber feature files** using the **Examples** section, where different sets of data are fed into the test scenario for execution. This allows for easy parameterization and testing with various inputs.
+
+#### Example Format:
+
+Here’s an example of how test data is provided in the feature file:
+
+```gherkin
+Scenario Outline: Create pet
+  Given Pet with <id> and <name> is created with status <status> and code <code>
+  Then The pet is successfully created
+
+Examples:
+  | id   | name    | status    | code |
+  | 501  | dog44   | available | 200  |
+  | 502  | dog55   | pending   | 200  |
+```
+  
+In the example above:
+
+The Scenario Outline defines the test steps with placeholders <id>, <name>, <status>, and <code>.
+The Examples table provides the different sets of values for these placeholders, which will be substituted during the test execution.
+Each row in the Examples table is executed as a separate test with different test data.
+
+#### Using the Test Data in Step Definitions:
+In the step definition file, you would use parameterized steps to handle the test data passed from the Examples table.
+
+Example of a step definition in Java:
+```java
+@Given("Pet with {int} and {string} is created with status {string} and code {int}")
+public void createPet(int id, String name, String status, int code) {
+    // Use the id, name, status, and code values to create a pet and verify the response
+}```
+Each test will run with the respective data from the Examples table.  
+
 ---
 
 ## Reporting
@@ -123,9 +159,9 @@ petstore
 │       │       └── user
 │       ├── resources
 │       │   └── features
-│       │       └── All Pet Tests.feature
-│       │       └── All Store Tests.feature
-│       │       └── All User Tests.feature
+│       │       └── AllPetTests.feature
+│       │       └── AllStoreTests.feature
+│       │       └── AllUserTests.feature
 ├── pom.xml
 └── README.md
 ```
