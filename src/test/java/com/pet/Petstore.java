@@ -60,14 +60,14 @@ public class Petstore {
 	public void addPet() {
 		log.info("Adding a pet");
 	    response = given()
-	    		.log().all()
-		    	.baseUri(baseUri)
-		    	.basePath(basePath)
-		 	    .headers("Accept",ContentType.JSON)
-		 	    .header("Content-Type", ContentType.JSON) 
-		 	    .body(PetstoreUtils.processObject(pet))
-		 	    .when()
-		        .post();	
+    		.log().all()
+	    	.baseUri(baseUri)
+	    	.basePath(basePath)
+	 	    .headers("Accept",ContentType.JSON)
+	 	    .header("Content-Type", ContentType.JSON) 
+	 	    .body(PetstoreUtils.processObject(pet))
+	 	    .when()
+	        .post();	
 	    
 		log.debug("Verify Response:");
 		response.then().statusCode(this.code)

@@ -2,7 +2,7 @@ package com.user;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -40,7 +40,7 @@ public class User {
 		log = LogInitializer.getLogger();
 	}
 	
-	public void addUser(String userlist)  throws IOException {
+	public void addUserByInputArray(String userlist)  throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         List<Map<String, Object>> users = objectMapper.readValue(userlist, new TypeReference<List<Map<String, Object>>>() {});
 		log.info("Creating users from a list");
@@ -50,7 +50,6 @@ public class User {
 		    	.basePath(basePath)
 		 	    .headers("Accept",ContentType.JSON)
 		 	    .header("Content-Type", ContentType.JSON) 
-		 	    //.body(PetstoreUtils.processObject(userlist))
 		 	    .body(users)
 		 	    .when()
 		        .post("/createWithList");	
@@ -111,15 +110,17 @@ public class User {
 	}
 
 
-	public void userRequestBuilder(String firstname, String lastname, String email, String password, String phone, int userStatus, int code) {
+	public void userRequestBuilder(String username, String firstname, String lastname, String email, String password, String phone, int userStatus, int code) {
+		this.username = username;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
 		this.userStatus = userStatus;
+		this.code = code;
 		
-		userObj = new UserObj(this.username, firstname, lastname, email, password, phone, userStatus);
+		userObj = new UserObj(username, firstname, lastname, email, password, phone, userStatus);
 	}
 
 	public void verifyUserUpdate() {
@@ -148,7 +149,7 @@ public class User {
 	}
 	
 	public void verifyUserrNotFound(String username) {
-		log.info("Verifying store not found");
+		log.info("Verifying user not found");
 	    response = given()
 	       .log().all()
 	       .baseUri(baseUri)
@@ -165,6 +166,83 @@ public class User {
 		assertThat("User should not be found", response.jsonPath().getString("message"), equalTo("User not found"));
 
 	}
+
+	public void addUser() {
+		log.info("Creating users from a list");
+	    response = given()
+	    		.log().all()
+		    	.baseUri(baseUri)
+		    	.basePath(basePath)
+		 	    .headers("Accept",ContentType.JSON)
+		 	    .header("Content-Type", ContentType.JSON) 
+		 	    .body(PetstoreUtils.processObject(userObj))
+		 	    .when()
+		        .post();	
+	    
+		log.debug("Verify Response:");
+		response.then().statusCode(this.code)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();				
+	}
+
+	public void userLogin(String username, String password, int code) {
+		this.username = username;
+		this.password = password;
+		this.code = code;
+		log.info("Logs user into the system");
+	    response = given()
+	       .log().all()
+	       .baseUri(baseUri)
+	       .basePath(basePath)
+	       .headers("Accept",ContentType.JSON)
+	       .queryParam("username", this.username)
+	       .queryParam("password", this.password)
+           .when()
+           .get("/login");
+		
+		log.debug("Response:");
+		response.then().statusCode(this.code)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();
+	}
+	
+	public void verifyUserLoggedIn() {
+		assertThat("User login success", response.jsonPath().getInt("code"), equalTo(200));
+        assertThat("Expires after header", response.getHeader("X-Expires-After"), notNullValue());
+        assertThat("Expires after header", response.getHeader("X-Expires-After"), matchesPattern("^[A-Za-z]{3} [A-Za-z]{3} \\d{2} \\d{2}:\\d{2}:\\d{2} UTC \\d{4}$"));
+        assertThat("Rate Limit header", response.getHeader("X-Rate-Limit"), notNullValue());
+        assertThat("Rate Limit headers", response.getHeader("X-Rate-Limit"), matchesPattern("\\d+"));		
+	}
+
+	public void userLogout(String username, int code) {
+		this.code = code;
+		log.info("Logs user out the system");
+	    response = given()
+	       .log().all()
+	       .baseUri(baseUri)
+	       .basePath(basePath)
+	       .headers("Accept",ContentType.JSON)
+           .when()
+           .get("/logout");
+		
+		log.debug("Response:");
+		response.then().statusCode(this.code)
+					   .header("Content-Type", "application/json")
+					   .and().log().all().extract().response();		
+		assertThat("User logout be success", response.jsonPath().getInt("code"), equalTo(200));
+		assertThat("User logout be success", response.jsonPath().getString("type"), equalTo("unknown"));
+		assertThat("User logout be success", response.jsonPath().getString("message"), equalTo("ok"));
+        assertThat("access-control-allow-headers", response.getHeader("access-control-allow-headers"), equalTo("Content-Type, api_key, Authorization"));
+        assertThat("access-control-allow-methods", response.getHeader("access-control-allow-methods"), equalTo("GET, POST, DELETE, PUT"));
+        assertThat("access-control-allow-origin", response.getHeader("access-control-allow-origin"), equalTo("*"));
+        assertThat("content-type", response.getHeader("content-type"), equalTo("application/json"));
+        assertThat("date", response.getHeader("date"), matchesPattern("^[A-Za-z]{3}, \\d{2} [A-Za-z]{3} \\d{4} \\d{2}:\\d{2}:\\d{2} GMT$"));
+        assertThat("server", response.getHeader("server"), equalTo("Jetty(9.2.9.v20150224)"));
+
+        log.info("Assertions passed!");
+	}
+
+
 
 
 		
