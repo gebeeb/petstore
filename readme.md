@@ -137,9 +137,9 @@ In order to run tests in parallel, you need to modify the `maven-surefire-plugin
 ```
 
 Explanation of the Configuration
-parallel: Set to methods to run test methods in parallel. You can also set it to classes if you want to run entire test classes in parallel.
-threadCount: Specifies the number of threads to be used for parallel execution. In this case, it is set to 4, meaning 4 test methods will run concurrently.
-perCoreThreadCount: If set to true, it allows Maven to scale the number of threads based on the number of CPU cores available on your machine.
+- **parallel**: Set to `methods` to run test methods in parallel. You can also set it to `classes` if you want to run entire test classes in parallel.
+- **threadCount**: Specifies the number of threads to be used for parallel execution. In this case, it is set to 4, meaning 4 test methods will run concurrently.
+- **perCoreThreadCount**: If set to `true`, it allows Maven to scale the number of threads based on the number of CPU cores available on your machine.
 
 
 ---
