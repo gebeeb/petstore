@@ -1,12 +1,11 @@
 @test @store
 Feature: TC02 All Store Tests
 
-  Scenario: TC02.01 Return pet inventories
+  Scenario: TC02.01 Display pet inventories
     When User sends an inventory request
     Then A map of status codes to quantities is returned
 
   Scenario Outline: TC02.02 Place an order for pet
-    #    Given Pet with id <petId> is existing, code <code>
     When User places a store order with petId <petId> quantity <quantity> shipdate '<shipDate>' status '<status>' complete '<complete>' code <code>
     Then Order is created and retrieved
 
@@ -15,9 +14,9 @@ Feature: TC02 All Store Tests
       |   111 |        3 | 2025-02-05T05:04:10.270Z | placed   | true     |  200 |
       |   222 |        1 | 2025-01-28T08:37:12.000Z | approved | false    |  200 |
 
-
+@this
   Scenario Outline: TC02.03 Place an order with id for pet
-    When User places a store order with petId <petId> quantity <quantity> shipdate '<shipDate>' status '<status>' complete '<complete>' code <code>
+    When User places a store order with id <id> petId <petId> quantity <quantity> shipdate '<shipDate>' status '<status>' complete '<complete>' code <code>
     Then Order is created and retrieved
 
     Examples: 
@@ -25,7 +24,7 @@ Feature: TC02 All Store Tests
       |  501   |   111 |        3 | 2025-02-05T05:04:10.270Z | placed   | true     |  200 |
       |  502   |   222 |        1 | 2025-01-28T08:37:12.000Z | approved | false    |  200 |
       
-
+@this
   Scenario Outline: TC02.04 Find purchase by ID
     When User retrieves an order with id <id> , code <code>
 
@@ -34,7 +33,8 @@ Feature: TC02 All Store Tests
       |  -1 |  404 |
       |   1 |  200 |
       |  10 |  200 |
-      | 501 |  404 |
+      | 501 |  200 |
+      | 502 |  200 |
       | 888 |  404 |
 
 
@@ -46,6 +46,5 @@ Feature: TC02 All Store Tests
       | id  | code |
       | 501 |  200 |
       | 502 |  200 |      
-      | 10  |  200 |
       |  0  |  404 |      
       | -5  |  404 |

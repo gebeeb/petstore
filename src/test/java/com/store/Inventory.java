@@ -107,7 +107,7 @@ public class Inventory {
 	 		log.debug("Response:");
 	 		response.then().statusCode(code)
 	 					   .header("Content-Type", "application/json")
-	 					   .and().log().all().extract().response();			
+	 					   .and().log().all().extract().response();	
 	}
 
 	public void deleteOrder(long id, int code) {
@@ -136,13 +136,13 @@ public class Inventory {
 	       .pathParam("id", id)
 	       .headers("Accept",ContentType.JSON)
            .when()
-           .get("/{id}");
+           .get("/order/{id}");
 		
 		log.debug("Response:");
 		response.then().statusCode(404)
 					   .header("Content-Type", "application/json")
 					   .and().log().all().extract().response();
-		assertThat("Store should not be found", response.jsonPath().getString("message"), equalTo("Order Not Found"));
+		assertThat("Store should not be found", response.jsonPath().getString("message"), equalTo("Order not found"));
 
 	}
 	

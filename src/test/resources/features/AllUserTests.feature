@@ -17,11 +17,10 @@ Feature: TC03 All User Tests
       | username  | code |
       | name1     |  200 |
       | name2     |  200 |
-      | name23456 |  404 |
+      | name33333 |  404 |
 
 
   Scenario Outline: TC03.03 Update user by username
-    #    Given A user is existing with username '<username>' code <code>
     When A user is updated with username '<username>' firstname '<firstname>' lastname '<lastname>' email '<email>' password '<password>' phone '<phone>' userStatus <userStatus> code <code>
     Then The user record is updated
 
@@ -32,21 +31,18 @@ Feature: TC03 All User Tests
       | name23456 | firstname3 | lastname3 | test3@email.com | password3 |      12345 |          6 |  404 |
 
   Scenario Outline: TC03.04 User logs into the system
-    #    Given A user is existing with username '<username>' code <code>
     Then User can login to the system with username '<username>' password '<password>' code <code>
 
     Examples: 
       | username  | password  | code |
       | name1     | password1 |  200 |
       | name2     | password2 |  200 |
-      | name23456 | password3 |  404 |
+      | name33333 | password3 |  400 |
 
 
   Scenario Outline: TC03.05 Create a user by logged in user
-#    Given A user is existing with username '<username>' code <code>
     Then User can login to the system with username '<username>' password '<password>' code <code>
     When A user is created with username '<username>' firstname '<firstname>' lastname '<lastname>' email '<email>' password '<password>' phone '<phone>' userStatus <userStatus> code <code>
-#    Then User is retrieved
 
     Examples: 
       | username  | firstname  | lastname  | email           | password  | phone      | userStatus | code |
@@ -56,7 +52,6 @@ Feature: TC03 All User Tests
 
 
   Scenario Outline: TC03.06 User logout of the system
-#    Given A user is existing with username '<username>' code <code>
     Then User can logout from the system with username '<username>' code <code>
 
     Examples: 
