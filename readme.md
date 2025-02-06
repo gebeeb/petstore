@@ -69,7 +69,7 @@ This will run all Cucumber feature files and execute the associated tests.
 
 ### Running Specific Features or Tests
 
-To run specific tests, you can specify the feature file path using the `-Dcucumber.options` property. For example, to run a specific feature file:
+To run specific tests, you can specify the feature file path using the `-Dcucumber.filter.tags` property. For example, to run a specific feature file:
 
 ```bash
 mvn test -Dcucumber.filter.tags="@test"
@@ -107,8 +107,8 @@ In the step definition file, you would use parameterized steps to handle the tes
 
 Example of a step definition in Java:
 ```java
-@Given("Pet with {int} and {string} is created with status {string} and code {int}")
-public void createPet(int id, String name, String status, int code) {
+@Given("Pet with {long} and {string} is created with status {string} and code {int}")
+public void createPet(long id, String name, String status, int code) {
     // Use the id, name, status, and code values to create a pet and verify the response
 }
 ```
