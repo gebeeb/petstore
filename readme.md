@@ -141,6 +141,8 @@ Explanation of the Configuration
 - **threadCount**: Specifies the number of threads to be used for parallel execution. In this case, it is set to 4, meaning 4 test methods will run concurrently.
 - **perCoreThreadCount**: If set to `true`, it allows Maven to scale the number of threads based on the number of CPU cores available on your machine.
 
+### Pipeline
+This project is set up to run automatically in the GitHub Actions pipeline on every push to the main branch or on pull requests. The tests are executed using Maven and Cucumber, and the results can be found in the Cucumber HTML Report artifact.
 
 ---
 
