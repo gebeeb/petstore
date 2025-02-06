@@ -114,6 +114,34 @@ public void createPet(long id, String name, String status, int code) {
 ```
 Each test will run with the respective data from the Examples table.  
 
+
+### Parallel Execution with JUnit4
+
+Parallel execution of tests can be enabled in JUnit 4 using the **Maven Surefire Plugin**. This allows you to run tests concurrently, which can improve the overall test execution time, especially for larger test suites. The configuration below ensures that the tests are run in parallel at the method level with a specified thread count.
+
+#### Configuration
+
+In order to run tests in parallel, you need to modify the `maven-surefire-plugin` configuration in your `pom.xml`. Below is the configuration for running tests in parallel at the method level with 4 threads:
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <version>${surefire.version}</version>
+    <configuration>
+        <parallel>methods</parallel>
+        <threadCount>4</threadCount>
+        <perCoreThreadCount>true</perCoreThreadCount>
+    </configuration>
+</plugin>
+```
+
+Explanation of the Configuration
+parallel: Set to methods to run test methods in parallel. You can also set it to classes if you want to run entire test classes in parallel.
+threadCount: Specifies the number of threads to be used for parallel execution. In this case, it is set to 4, meaning 4 test methods will run concurrently.
+perCoreThreadCount: If set to true, it allows Maven to scale the number of threads based on the number of CPU cores available on your machine.
+
+
 ---
 
 ## Reporting
